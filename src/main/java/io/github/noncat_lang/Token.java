@@ -42,14 +42,14 @@ public class Token {
       result = encoding.encode(result);
     }
     if (!validate(result)) {
-      throw new IllegalArgumentException(format("Error during encoding: value '%s' does not match token '%s'", result, regex));
+      throw new IllegalArgumentException(format("Error after encoding: value '%s' does not match token '%s'", result, regex));
     }
     return result;
   }
 
   String decode(@NonNull String value) {
     if (!validate(value)) {
-      throw new IllegalArgumentException(format("Error during decoding: value '%s' does not match token '%s'", value, regex));
+      throw new IllegalArgumentException(format("Error before decoding: value '%s' does not match token '%s'", value, regex));
     }
     String result = value;
     for (Decoding decoding : decodings) {
