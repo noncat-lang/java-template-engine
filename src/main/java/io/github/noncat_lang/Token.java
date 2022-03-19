@@ -28,15 +28,15 @@ public class Token {
     return this;
   }
 
-  protected String getRegex() {
+  String getRegex() {
     return regex;
   }
 
-  public boolean validate(@NonNull String value) {
+  boolean validate(@NonNull String value) {
     return value.matches(regex);
   }
 
-  public String encode(@NonNull String value) {
+  String encode(@NonNull String value) {
     String result = value;
     for (Encoding encoding : encodings) {
       result = encoding.encode(result);
@@ -47,7 +47,7 @@ public class Token {
     return result;
   }
 
-  public String decode(@NonNull String value) {
+  String decode(@NonNull String value) {
     if (!validate(value)) {
       throw new IllegalArgumentException(format("Error during decoding: value '%s' does not match token '%s'", value, regex));
     }

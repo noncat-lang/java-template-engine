@@ -13,7 +13,7 @@ public class Decoding {
   @NonNull
   String replacement;
 
-  public String decode(@NonNull String value) {
+  String decode(@NonNull String value) {
     return value.replaceAll(regex, replacement);
   }
 

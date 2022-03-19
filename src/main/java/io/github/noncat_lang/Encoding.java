@@ -13,7 +13,7 @@ public class Encoding {
   @NonNull
   String replacement;
 
-  public String encode(@NonNull String value) {
+  String encode(@NonNull String value) {
     return value.replaceAll(regex, replacement);
   }
 
