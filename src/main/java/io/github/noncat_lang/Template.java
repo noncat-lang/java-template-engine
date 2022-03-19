@@ -1,7 +1,5 @@
 package io.github.noncat_lang;
 
-import static java.lang.String.format;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,6 +35,10 @@ public class Template {
     return this;
   }
 
+  public String format(@NonNull Map<String, String> values) {
+    return unparse(values);
+  }
+
   public String unparse(@NonNull Map<String, String> values) {
     return parseTree.element().stream().map(element -> unparseElement(element, values)).collect(Collectors.joining());
   }
@@ -61,7 +63,7 @@ public class Template {
     Matcher matcher = Pattern.compile(pattern).matcher(value);
     if (!matcher.matches()) {
       throw new IllegalArgumentException(
-          format("Error during parsing: value '%s' does not match pattern '%s'", value, pattern));
+          String.format("Error during parsing: value '%s' does not match pattern '%s'", value, pattern));
     }
     Map<String, String> values = new HashMap<>();
     for (Entry<String, Token> entry : tokens.entrySet()) {
@@ -80,7 +82,7 @@ public class Template {
   private String parseArg(ArgContext arg) {
     String id = arg.ID().getText();
     Token token = tokens.get(id);
-    return format("(?<%s>%s)", id, token.getRegex());
+    return String.format("(?<%s>%s)", id, token.getRegex());
   }
 
 }

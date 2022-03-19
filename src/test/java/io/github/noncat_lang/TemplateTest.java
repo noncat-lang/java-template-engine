@@ -15,7 +15,7 @@ class TemplateTest {
     Template template = Template.of("Hello ${world}!").withToken("world", token);
     // when
     Map<String, String> values = Map.of("world", "LangSec");
-    String result = template.unparse(values);
+    String result = template.format(values);
     // then
     assertThat(result).isEqualTo("Hello LangSec!");
   }
