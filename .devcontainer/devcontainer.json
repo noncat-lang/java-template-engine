@@ -26,7 +26,8 @@
 		"vscjava.vscode-java-pack",
 		"GabrielBB.vscode-lombok",
 		"mike-lischke.vscode-antlr4",
-		"esbenp.prettier-vscode"
+		"esbenp.prettier-vscode",
+		"streetsidesoftware.code-spell-checker"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
