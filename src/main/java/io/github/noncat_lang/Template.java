@@ -31,6 +31,9 @@ public class Template {
   }
 
   public Template withToken(@NonNull String field, @NonNull Token token) {
+    if (field.isBlank()) {
+      throw new IllegalArgumentException("Token field should not be blank/empty");
+    }
     tokens.put(field, token);
     return this;
   }
@@ -65,13 +68,16 @@ public class Template {
       throw new IllegalArgumentException(
           String.format("Error during parsing: value '%s' does not match pattern '%s'", value, pattern));
     }
-    Map<String, String> values = new HashMap<>();
-    for (Entry<String, Token> entry : tokens.entrySet()) {
-      String id = entry.getKey();
-      String val = entry.getValue().decode(matcher.group(id));
-      values.put(id, val);
-    }
-    return values;
+    return decodeAllToken(matcher);
+  }
+
+  private Map<String, String> decodeAllToken(Matcher matcher) {
+    return tokens.entrySet().stream()
+        .collect(Collectors.toMap(Entry::getKey, entry -> decodeToken(entry, matcher)));
+  }
+
+  private String decodeToken(Entry<String, Token> entry, Matcher matcher) {
+    return entry.getValue().decode(matcher.group(entry.getKey()));
   }
 
   private String parseElement(ElementContext element) {

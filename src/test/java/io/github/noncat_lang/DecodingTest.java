@@ -14,12 +14,15 @@ class DecodingTest {
 
   static Stream<Arguments> happyParams() {
     return Stream.of(
-        Arguments.of("o", "0", "hello world", "hell0 w0rld"));
+        Arguments.of("o", "0", "hello world", "hell0 w0rld"),
+        Arguments.of("", "", "hello world", "hello world"),
+        Arguments.of("[A-Z]", "($0)", "Hello World", "(H)ello (W)orld")
+        );
   }
 
   @ParameterizedTest
   @MethodSource("happyParams")
-  void happyPath(String regex, String replacement, String input, String expected) throws Exception {
+  void happyPath(String regex, String replacement, String input, String expected) {
     // given
     Decoding decoding = Decoding.of(regex, replacement);
     // when
@@ -37,7 +40,7 @@ class DecodingTest {
 
   @ParameterizedTest
   @MethodSource("unhappyParams")
-  void unhappyPath(String regex, String replacement, String input, Class<Exception> expected) throws Exception {
+  void unhappyPath(String regex, String replacement, String input, Class<Exception> expected) {
     ThrowingCallable call = () -> {
       Decoding decoding = Decoding.of(regex, replacement);
       decoding.decode(input);
