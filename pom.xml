@@ -9,9 +9,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>11</maven.compiler.release>
     <antlr.version>4.9.3</antlr.version>
     <junit.version>5.8.2</junit.version>
   </properties>
@@ -60,8 +58,6 @@
         <version>3.10.1</version>
         <configuration>
           <release>${maven.compiler.release}</release>
-          <source>${maven.compiler.source.version}</source>
-          <target>${maven.compiler.target.version}</target>
         </configuration>
       </plugin>
       <plugin>
