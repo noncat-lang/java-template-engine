@@ -13,6 +13,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import io.github.noncat_lang.TemplateParser.ArgContext;
 import io.github.noncat_lang.TemplateParser.ElementContext;
 import io.github.noncat_lang.TemplateParser.TemplateContext;
+import io.github.noncat_lang.exceptions.MissingTokenException;
+import io.github.noncat_lang.exceptions.MissingValueException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -53,11 +55,15 @@ public class Template {
 
   private String unparseArg(ArgContext arg, @NonNull Map<String, String> values) {
     String id = arg.ID().getText();
-    String value = values.get(id);
     Token token = tokens.get(id);
-    if (value != null && token != null) {
-      value = token.encode(value);
+    if (token == null) {
+      throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
     }
+    String value = values.get(id);
+    if (value == null) {
+      throw new MissingValueException(String.format("Value for field '%s' is missing", id));
+    }
+    value = token.encode(value);
     return value;
   }
 
@@ -72,8 +78,7 @@ public class Template {
   }
 
   private Map<String, String> decodeAllToken(Matcher matcher) {
-    return tokens.entrySet().stream()
-        .collect(Collectors.toMap(Entry::getKey, entry -> decodeToken(entry, matcher)));
+    return tokens.entrySet().stream().collect(Collectors.toMap(Entry::getKey, entry -> decodeToken(entry, matcher)));
   }
 
   private String decodeToken(Entry<String, Token> entry, Matcher matcher) {
@@ -88,6 +93,9 @@ public class Template {
   private String parseArg(ArgContext arg) {
     String id = arg.ID().getText();
     Token token = tokens.get(id);
+    if (token == null) {
+      throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
+    }
     return String.format("(?<%s>%s)", id, token.getRegex());
   }
 

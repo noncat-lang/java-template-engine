@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.noncat_lang.exceptions.MissingTokenException;
+import io.github.noncat_lang.exceptions.MissingValueException;
+
 class TemplateTest {
 
   @Test
@@ -68,6 +71,30 @@ class TemplateTest {
   }
 
   @Test
+  void unparseWithMissingToken() {
+    Template template = Template.of("${any}");
+    Map<String, String> values = Map.of("any", "any");
+    assertThatThrownBy(() -> template.unparse(values)).isExactlyInstanceOf(MissingTokenException.class)
+        .hasMessage("Token for field 'any' is missing");
+  }
+
+  @Test
+  void unparseWithMissingValue() {
+    Template template = Template.of("${any}").withToken("any", Token.of("[a-z]+"));
+    Map<String, String> values = Map.of();
+    assertThatThrownBy(() -> template.unparse(values)).isExactlyInstanceOf(MissingValueException.class)
+        .hasMessage("Value for field 'any' is missing");
+  }
+
+  @Test
+  void parseWithMissingToken() {
+    Template template = Template.of("${any}");
+    String value = "any";
+    assertThatThrownBy(() -> template.parse(value)).isExactlyInstanceOf(MissingTokenException.class)
+        .hasMessage("Token for field 'any' is missing");
+  }
+
+  @Test
   void templateStringNull() {
     String templateString = null;
     assertThatThrownBy(() -> Template.of(templateString)).isExactlyInstanceOf(NullPointerException.class);
@@ -77,8 +104,7 @@ class TemplateTest {
   void tokenNull() {
     Template template = Template.of("any");
     Token token = null;
-    assertThatThrownBy(() -> template.withToken("any", token))
-        .isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> template.withToken("any", token)).isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
