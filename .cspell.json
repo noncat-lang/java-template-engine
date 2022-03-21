@@ -2,7 +2,10 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "noncat",
     "unparse",
+    "unparser",
+    "unparsers",
     "println"
   ],
   "enableFiletypes": [

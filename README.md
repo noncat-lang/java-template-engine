@@ -6,7 +6,14 @@
 
 # Java Template Engine
 
-TODO
+Java Template Engine demonstrates one concept of [Noncat](https://github.com/noncat-lang/noncat) within the Java programming language.
+
+Java Template Engine uses the well known idea of templates to solve the not well known problem of defining languages for program input and output.
+By defining these languages programs are able to reject malicious input and create well formed output to prevent input based vulnerabilities.
+Java Template Engine helps you to do exactly this without the need to write a grammar.
+
+Using Java Template Engine one can only define regular languages, hence it is not possible to define all language features of context free languages, e.g., HTML or SQL.
+
 
 ## Usage
 
