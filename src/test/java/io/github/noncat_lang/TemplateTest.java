@@ -33,7 +33,8 @@ class TemplateTest {
         Arguments.of("[a-zA-Z]+", "Hello ${world}!", "world", "LangSec", "Hello LangSec!"),
         Arguments.of("[a-zA-Z]+", "Hello {${world}}!", "world", "LangSec", "Hello {LangSec}!"),
         Arguments.of("[a-zA-Z]+", "Hello $${world}!", "world", "LangSec", "Hello $LangSec!"),
-        Arguments.of("[a-zA-Z]+", "Hello ${} ${world}!", "world", "LangSec", "Hello ${} LangSec!"));
+        Arguments.of("[a-zA-Z]+", "Hello ${} ${world}!", "world", "LangSec", "Hello ${} LangSec!"),
+        Arguments.of("[a-zA-Z]+", "Hello ${0}!", "0", "LangSec", "Hello LangSec!"));
   }
 
   @ParameterizedTest
@@ -144,28 +145,21 @@ class TemplateTest {
     assertThatThrownBy(() -> template.withToken("any", token)).isExactlyInstanceOf(NullPointerException.class);
   }
 
-  @Test
-  void tokenFieldNull() {
-    Template template = Template.of("any");
-    Token token = Token.of("any");
-    String field = null;
-    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(NullPointerException.class);
+  static Stream<Arguments> invalidTokenFields() {
+    return Stream.of(
+        Arguments.of(null, NullPointerException.class, "field is marked non-null but is null"),
+        Arguments.of("", IllegalArgumentException.class, "Token field should not be blank/empty"),
+        Arguments.of(" ", IllegalArgumentException.class, "Token field should not be blank/empty"),
+        Arguments.of("#", IllegalArgumentException.class, "Token field does not match pattern [a-zA-Z0-9]+"));
   }
 
-  @Test
-  void tokenFieldEmpty() {
+  @ParameterizedTest
+  @MethodSource("invalidTokenFields")
+  void tokenFieldEmpty(String field, Class<Exception> expectedException, String expectedMessage) {
     Template template = Template.of("any");
     Token token = Token.of("any");
-    String field = "";
-    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(IllegalArgumentException.class);
-  }
-
-  @Test
-  void tokenFieldBlank() {
-    Template template = Template.of("any");
-    Token token = Token.of("any");
-    String field = " ";
-    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(expectedException)
+        .hasMessage(expectedMessage);
   }
 
 }

@@ -36,6 +36,9 @@ public class Template {
     if (field.isBlank()) {
       throw new IllegalArgumentException("Token field should not be blank/empty");
     }
+    if (!field.matches("[a-zA-Z0-9]+")) {
+      throw new IllegalArgumentException("Token field does not match pattern [a-zA-Z0-9]+");
+    }
     tokens.put(field, token);
     return this;
   }
@@ -82,7 +85,7 @@ public class Template {
   }
 
   private String decodeToken(Entry<String, Token> entry, Matcher matcher) {
-    return entry.getValue().decode(matcher.group(entry.getKey()));
+    return entry.getValue().decode(matcher.group("x" + entry.getKey()));
   }
 
   private String parseElement(ElementContext element) {
@@ -96,7 +99,7 @@ public class Template {
     if (token == null) {
       throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
     }
-    return String.format("(?<%s>%s)", id, token.getRegex());
+    return String.format("(?<x%s>%s)", id, token.getRegex());
   }
 
   private String getId(ArgContext arg) {
