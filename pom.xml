@@ -209,6 +209,15 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <name>Mark Vollmary</name>
+      <email>markvollmary@googlemail.com</email>
+      <organization>noncat-lang</organization>
+      <organizationUrl>https://github.com/noncat-lang</organizationUrl>
+    </developer>
+  </developers>
+
   <scm>
     <connection>scm:git:git://github.com/noncat-lang/java-template-engine.git</connection>
     <developerConnection>scm:git:ssh://github.com:noncat-lang/java-template-engine.git</developerConnection>
