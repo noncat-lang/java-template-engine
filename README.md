@@ -1,4 +1,5 @@
 <!-- markdown-link-check-disable -->
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.noncat-lang/java-template-engine)](https://search.maven.org/artifact/io.github.noncat-lang/java-template-engine)
 [![](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml?query=branch%3Amain)
 [![](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml?query=branch%3Amain)
 [![](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml?query=branch%3Amain)
