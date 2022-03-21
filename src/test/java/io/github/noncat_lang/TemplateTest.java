@@ -53,7 +53,7 @@ class TemplateTest {
     // when
     Map<String, String> result = template.parse("Hello LangSec!");
     // then
-    assertThat(result.get("world")).isEqualTo("LangSec");
+    assertThat(result).containsEntry("world", "LangSec");
   }
 
   @Test
@@ -64,7 +64,7 @@ class TemplateTest {
     // when
     Map<String, String> result = template.parse("Hello 'LangSec'!");
     // then
-    assertThat(result.get("world")).isEqualTo("LangSec");
+    assertThat(result).containsEntry("world", "LangSec");
   }
 
   @Test
@@ -75,27 +75,34 @@ class TemplateTest {
 
   @Test
   void tokenNull() {
+    Template template = Template.of("any");
     Token token = null;
-    assertThatThrownBy(() -> Template.of("any").withToken("any", token))
+    assertThatThrownBy(() -> template.withToken("any", token))
         .isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
   void tokenFieldNull() {
+    Template template = Template.of("any");
+    Token token = Token.of("any");
     String field = null;
-    assertThatThrownBy(() -> Template.of("any").withToken(field, Token.of("any"))).isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
   void tokenFieldEmpty() {
+    Template template = Template.of("any");
+    Token token = Token.of("any");
     String field = "";
-    assertThatThrownBy(() -> Template.of("any").withToken(field, Token.of("any"))).isExactlyInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   void tokenFieldBlank() {
+    Template template = Template.of("any");
+    Token token = Token.of("any");
     String field = " ";
-    assertThatThrownBy(() -> Template.of("any").withToken(field, Token.of("any"))).isExactlyInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> template.withToken(field, token)).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
 }

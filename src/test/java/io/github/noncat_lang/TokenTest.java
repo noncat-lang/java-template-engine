@@ -124,25 +124,29 @@ class TokenTest {
 
   @Test
   void encodingNull() {
+    Token token = Token.of("any");
     Encoding[] encoding = null;
-    assertThatThrownBy(() -> Token.of("any").withEncoding(encoding)).isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> token.withEncoding(encoding)).isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
   void decodingNull() {
+    Token token = Token.of("any");
     Decoding[] decoding = null;
-    assertThatThrownBy(() -> Token.of("any").withDecoding(decoding)).isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> token.withDecoding(decoding)).isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
   void encodeNull() {
+    Token token = Token.of("any");
     String value = null;
-    assertThatThrownBy(() -> Token.of("any").encode(value)).isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> token.encode(value)).isExactlyInstanceOf(NullPointerException.class);
   }
 
   @Test
   void decodeNull() {
+    Token token = Token.of("any");
     String value = null;
-    assertThatThrownBy(() -> Token.of("any").decode(value)).isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> token.decode(value)).isExactlyInstanceOf(NullPointerException.class);
   }
 }
