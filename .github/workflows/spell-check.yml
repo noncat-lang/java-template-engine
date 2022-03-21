@@ -1,6 +1,8 @@
 name: Spell Check
 on:
   push:
+    branches:
+      - '*'
   pull_request:
 jobs:
   spell-check:
