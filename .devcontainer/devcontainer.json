@@ -27,7 +27,8 @@
 		"GabrielBB.vscode-lombok",
 		"mike-lischke.vscode-antlr4",
 		"esbenp.prettier-vscode",
-		"streetsidesoftware.code-spell-checker"
+		"streetsidesoftware.code-spell-checker",
+		"redhat.vscode-xml"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
