@@ -54,7 +54,7 @@ public class Template {
   }
 
   private String unparseArg(ArgContext arg, @NonNull Map<String, String> values) {
-    String id = arg.ID().getText();
+    String id = getId(arg);
     Token token = tokens.get(id);
     if (token == null) {
       throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
@@ -68,7 +68,7 @@ public class Template {
   }
 
   public Map<String, String> parse(@NonNull String value) {
-    String pattern = parseTree.element().stream().map(element -> parseElement(element)).collect(Collectors.joining());
+    String pattern = parseTree.element().stream().map(this::parseElement).collect(Collectors.joining());
     Matcher matcher = Pattern.compile(pattern).matcher(value);
     if (!matcher.matches()) {
       throw new IllegalArgumentException(
@@ -86,17 +86,22 @@ public class Template {
   }
 
   private String parseElement(ElementContext element) {
-    ArgContext arg = element.arg();
-    return arg == null ? element.TEXT().getText() : parseArg(arg);
+    ArgContext id = element.arg();
+    return id == null ? Pattern.quote(element.TEXT().getText()) : parseArg(id);
   }
 
   private String parseArg(ArgContext arg) {
-    String id = arg.ID().getText();
+    String id = getId(arg);
     Token token = tokens.get(id);
     if (token == null) {
       throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
     }
     return String.format("(?<%s>%s)", id, token.getRegex());
+  }
+
+  private String getId(ArgContext arg) {
+    String id = arg.ID().getText();
+    return id.substring(2, id.length() - 1);
   }
 
 }

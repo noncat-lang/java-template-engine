@@ -3,7 +3,7 @@ grammar Template;
 template: element*;
 
 element: TEXT | arg;
-arg: '${' ID '}';
+arg: ID;
 
-ID: [a-zA-Z0-9]+;
-TEXT: ~[${}]+;
+ID: '${' [a-zA-Z0-9]+ '}';
+TEXT: .+?;
