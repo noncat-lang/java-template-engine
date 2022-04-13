@@ -25,7 +25,8 @@ class ValuesTest {
     // then
     assertThat(values.get("nope")).isEmpty();
   }
-
+  
+  @Test
   void initializedWithData() {
     // given
     // when
@@ -33,7 +34,8 @@ class ValuesTest {
     // then
     assertThat(values.get("foo")).hasValue("bar");
   }
-
+  
+  @Test
   void initializedFromMap() {
     // given
     // when
