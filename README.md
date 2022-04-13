@@ -1,10 +1,10 @@
 <!-- markdown-link-check-disable -->
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.noncat-lang/java-template-engine)](https://search.maven.org/artifact/io.github.noncat-lang/java-template-engine)
-[![](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml?query=branch%3Amain)
-[![](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml?query=branch%3Amain)
-[![](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml?query=branch%3Amain)
+[![Unit Test](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/unit-test.yml?query=branch%3Amain)
+[![Semgrep](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/semgrep.yml?query=branch%3Amain)
+[![Dependency Check](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/dependency-check.yml?query=branch%3Amain)
+[![Markdown Link Check](https://github.com/noncat-lang/java-template-engine/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/noncat-lang/java-template-engine/actions/workflows/markdown-link-check.yml?query=branch%3Amain)
 <!-- markdown-link-check-enable -->
-
 # Java Template Engine
 
 Java Template Engine demonstrates one concept of [Noncat](https://github.com/noncat-lang/noncat) within the Java programming language.
@@ -20,33 +20,39 @@ Using Java Template Engine one can only define regular languages, hence it is no
 
 TODO
 
-### Format
-
+### Format / Unparse
 ```Java
-Token token = Token.of("[a-zA-Z]+");
-Template template = Template.of("Hello ${name}!")
-    .withToken("name", token);
+createOutput("new,World");
+```
+```Java
+String createOutput(String name) {
+  Token token = Token.of("[a-zA-Z ]+").withEncoding(Encoding.of(",", " "));
+  Template template = Template.of("Hello ${name}!")
+      .withToken("name", token);
 
-Values values = Values.of("name", "World");
-String output = template.format(values);
-
-System.out.println(output);
+  Values values = Values.of("name", name);
+  return template.format(values);
+}
 ```
 ```
-Hello World!
+Hello new World!
 ```
 
 ### Parse
 
 ```Java
-Token token = Token.of("[a-zA-Z]+");
-Template template = Template.of("Hello ${name}!")
-    .withToken("name", token);
+handleInput("Hello new World!");
+```
+```Java
+Optional<String> handleInput(String input) {
+  Token token = Token.of("[a-zA-Z ]+").withDecoding(Decoding.of(" ", ","));
+  Template template = Template.of("Hello ${name}!")
+      .withToken("name", token);
 
-Values data = template.parse("Hello World!");
-
-System.out.println(data);
+  Values data = template.parse(input);
+  return data.get("name");
+}
 ```
 ```
-{name=World}
+Optional[new,World]
 ```

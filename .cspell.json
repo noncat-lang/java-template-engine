@@ -6,7 +6,8 @@
     "unparse",
     "unparser",
     "unparsers",
-    "println"
+    "println",
+    "Semgrep"
   ],
   "enableFiletypes": [
     "!yaml"
