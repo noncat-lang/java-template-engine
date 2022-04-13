@@ -1,7 +1,5 @@
 package io.github.noncat_lang;
 
-import java.util.Map;
-
 import io.github.noncat_lang.internal.TemplateImpl;
 
 public interface Template {
@@ -12,10 +10,10 @@ public interface Template {
 
   Template withToken(String field, Token token);
 
-  String format(Map<String, String> values);
+  String format(Values values);
 
-  String unparse(Map<String, String> values);
+  String unparse(Values values);
 
-  Map<String, String> parse(String value);
+  Values parse(String value);
 
 }

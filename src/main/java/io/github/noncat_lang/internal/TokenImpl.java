@@ -9,17 +9,12 @@ import java.util.stream.Stream;
 import io.github.noncat_lang.Decoding;
 import io.github.noncat_lang.Encoding;
 import io.github.noncat_lang.Token;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import lombok.Value;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Value
 public final class TokenImpl implements Token {
   @NonNull
-  @Getter
   String regex;
   List<Encoding> encodings = new ArrayList<>();
   List<Decoding> decodings = new ArrayList<>();

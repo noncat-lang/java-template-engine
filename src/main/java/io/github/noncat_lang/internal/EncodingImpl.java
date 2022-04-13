@@ -1,13 +1,10 @@
 package io.github.noncat_lang.internal;
 
 import io.github.noncat_lang.Encoding;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import lombok.Value;
 
-@AllArgsConstructor(staticName = "of")
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Value(staticConstructor = "of")
 public final class EncodingImpl implements Encoding {
   @NonNull
   String regex;

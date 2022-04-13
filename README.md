@@ -27,7 +27,7 @@ Token token = Token.of("[a-zA-Z]+");
 Template template = Template.of("Hello ${name}!")
     .withToken("name", token);
 
-Map<String, String> values = Map.of("name", "World");
+Values values = Values.of("name", "World");
 String output = template.format(values);
 
 System.out.println(output);
@@ -43,7 +43,7 @@ Token token = Token.of("[a-zA-Z]+");
 Template template = Template.of("Hello ${name}!")
     .withToken("name", token);
 
-Map<String, String> data = template.parse("Hello World!");
+Values data = template.parse("Hello World!");
 
 System.out.println(data);
 ```

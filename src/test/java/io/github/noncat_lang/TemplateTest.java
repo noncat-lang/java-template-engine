@@ -22,7 +22,7 @@ class TemplateTest {
     Token token = Token.of("[a-zA-Z]+");
     Template template = Template.of("Hello ${world}!").withToken("world", token);
     // when
-    Map<String, String> values = Map.of("world", "LangSec");
+    Values values = Values.of("world", "LangSec");
     String result = template.format(values);
     // then
     assertThat(result).isEqualTo("Hello LangSec!");
@@ -44,7 +44,7 @@ class TemplateTest {
     Token token = Token.of(regex);
     Template template = Template.of(templateString).withToken(field, token);
     // when
-    Map<String, String> values = Map.of(field, value);
+    Values values = Values.of(field, value);
     String result = template.unparse(values);
     // then
     assertThat(result).isEqualTo(expected);
@@ -57,9 +57,9 @@ class TemplateTest {
     Token token = Token.of(regex);
     Template template = Template.of(templateString).withToken(field, token);
     // when
-    Map<String, String> result = template.parse(value);
+    Values result = template.parse(value);
     // then
-    assertThat(result).containsEntry(field, expected);
+    assertThat(result.get(field)).hasValue(expected);
   }
 
   @Test
@@ -68,7 +68,7 @@ class TemplateTest {
     Token token = Token.of("[a-zA-Z]+");
     Template template = Template.of("${a}, ${b}!").withToken("a", token).withToken("b", token);
     // when
-    Map<String, String> values = Map.of("a", "foo", "b", "bar");
+    Values values = Values.of(Map.of("a", "foo", "b", "bar"));
     String result = template.unparse(values);
     // then
     assertThat(result).isEqualTo("foo, bar!");
@@ -80,7 +80,7 @@ class TemplateTest {
     Token token = Token.of("'[a-zA-Z]+'").withEncoding(Encoding.of(".+", "'$0'"));
     Template template = Template.of("Hello ${world}!").withToken("world", token);
     // when
-    Map<String, String> values = Map.of("world", "LangSec");
+    Values values = Values.of("world", "LangSec");
     String result = template.unparse(values);
     // then
     assertThat(result).isEqualTo("Hello 'LangSec'!");
@@ -92,9 +92,10 @@ class TemplateTest {
     Token token = Token.of("[a-zA-Z]+");
     Template template = Template.of("${a}, ${b}!").withToken("a", token).withToken("b", token);
     // when
-    Map<String, String> result = template.parse("foo, bar!");
+    Values result = template.parse("foo, bar!");
     // then
-    assertThat(result).containsEntry("a", "foo").containsEntry("b", "bar");
+    assertThat(result.get("a")).hasValue("foo");
+    assertThat(result.get("b")).hasValue("bar");
   }
 
   @Test
@@ -103,15 +104,15 @@ class TemplateTest {
     Token token = Token.of("'[a-zA-Z]+'").withDecoding(Decoding.of("'", ""));
     Template template = Template.of("Hello ${world}!").withToken("world", token);
     // when
-    Map<String, String> result = template.parse("Hello 'LangSec'!");
+    Values result = template.parse("Hello 'LangSec'!");
     // then
-    assertThat(result).containsEntry("world", "LangSec");
+    assertThat(result.get("world")).hasValue("LangSec");
   }
 
   @Test
   void unparseWithMissingToken() {
     Template template = Template.of("${any}");
-    Map<String, String> values = Map.of("any", "any");
+    Values values = Values.of("any", "any");
     assertThatThrownBy(() -> template.unparse(values)).isExactlyInstanceOf(MissingTokenException.class)
         .hasMessage("Token for field 'any' is missing");
   }
@@ -119,7 +120,7 @@ class TemplateTest {
   @Test
   void unparseWithMissingValue() {
     Template template = Template.of("${any}").withToken("any", Token.of("[a-z]+"));
-    Map<String, String> values = Map.of();
+    Values values = Values.of();
     assertThatThrownBy(() -> template.unparse(values)).isExactlyInstanceOf(MissingValueException.class)
         .hasMessage("Value for field 'any' is missing");
   }

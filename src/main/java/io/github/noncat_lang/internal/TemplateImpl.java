@@ -17,15 +17,13 @@ import io.github.noncat_lang.TemplateParser.ArgContext;
 import io.github.noncat_lang.TemplateParser.ElementContext;
 import io.github.noncat_lang.TemplateParser.TemplateContext;
 import io.github.noncat_lang.Token;
+import io.github.noncat_lang.Values;
 import io.github.noncat_lang.exceptions.MissingTokenException;
 import io.github.noncat_lang.exceptions.MissingValueException;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import lombok.Value;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Value
 public final class TemplateImpl implements Template {
   TemplateContext parseTree;
   Map<String, Token> tokens = new HashMap<>();
@@ -49,27 +47,27 @@ public final class TemplateImpl implements Template {
   }
 
   @Override
-  public String format(@NonNull Map<String, String> values) {
+  public String format(@NonNull Values values) {
     return unparse(values);
   }
 
   @Override
-  public String unparse(@NonNull Map<String, String> values) {
+  public String unparse(@NonNull Values values) {
     return parseTree.element().stream().map(element -> unparseElement(element, values)).collect(Collectors.joining());
   }
 
-  private String unparseElement(ElementContext element, Map<String, String> values) {
+  private String unparseElement(ElementContext element, Values values) {
     ArgContext arg = element.arg();
     return arg == null ? element.TEXT().getText() : unparseArg(arg, values);
   }
 
-  private String unparseArg(ArgContext arg, @NonNull Map<String, String> values) {
+  private String unparseArg(ArgContext arg, @NonNull Values values) {
     String id = getId(arg);
     Token token = tokens.get(id);
     if (token == null) {
       throw new MissingTokenException(String.format("Token for field '%s' is missing", id));
     }
-    String value = values.get(id);
+    String value = values.get(id).orElse(null);
     if (value == null) {
       throw new MissingValueException(String.format("Value for field '%s' is missing", id));
     }
@@ -78,14 +76,14 @@ public final class TemplateImpl implements Template {
   }
 
   @Override
-  public Map<String, String> parse(@NonNull String value) {
+  public Values parse(@NonNull String value) {
     String pattern = parseTree.element().stream().map(this::parseElement).collect(Collectors.joining());
     Matcher matcher = Pattern.compile(pattern).matcher(value);
     if (!matcher.matches()) {
       throw new IllegalArgumentException(
           String.format("Error during parsing: value '%s' does not match pattern '%s'", value, pattern));
     }
-    return decodeAllToken(matcher);
+    return Values.of(decodeAllToken(matcher));
   }
 
   private Map<String, String> decodeAllToken(Matcher matcher) {
