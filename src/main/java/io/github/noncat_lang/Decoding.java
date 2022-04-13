@@ -1,20 +1,13 @@
 package io.github.noncat_lang;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import io.github.noncat_lang.internal.DecodingImpl;
 
-@AllArgsConstructor(staticName = "of")
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class Decoding {
-  @NonNull
-  String regex;
-  @NonNull
-  String replacement;
+public interface Decoding {
 
-  String decode(@NonNull String value) {
-    return value.replaceAll(regex, replacement);
+  static Decoding of(String regex, String replacement) {
+    return DecodingImpl.of(regex, replacement);
   }
+
+  String decode(String value);
 
 }
