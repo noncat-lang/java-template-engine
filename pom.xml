@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.noncat-lang</groupId>
   <artifactId>java-template-engine</artifactId>
-  <version>0.2.2</version>
+  <version>0.0.0</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java Template Engine uses the well known idea of templates to solve the not well known problem of defining languages for program input and output.</description>
   <url>https://github.com/noncat-lang/java-template-engine</url>

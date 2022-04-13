@@ -15,6 +15,9 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+      - name: Set Version in Maven Pom 
+        run: |
+          mvn versions:set -DnewVersion=$(echo ${{ github.event.release.tag_name }} | sed 's/v//g')
       - name: Install gpg secret key
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
