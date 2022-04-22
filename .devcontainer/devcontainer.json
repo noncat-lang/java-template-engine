@@ -28,7 +28,9 @@
 		"mike-lischke.vscode-antlr4",
 		"esbenp.prettier-vscode",
 		"streetsidesoftware.code-spell-checker",
-		"redhat.vscode-xml"
+		"redhat.vscode-xml",
+		"eamodio.gitlens",
+		"SonarSource.sonarlint-vscode"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
