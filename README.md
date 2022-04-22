@@ -7,7 +7,7 @@
 <!-- markdown-link-check-enable -->
 # Java Template Engine
 
-Java Template Engine demonstrates one concept of [Noncat](https://github.com/noncat-lang/noncat) within the Java programming language.
+This repository demonstrates one concept of [Noncat](https://github.com/noncat-lang/noncat). Instead of introducing a new programming language, we chose to use the Java programming language for this proof of concept.
 
 Java Template Engine uses the well known idea of templates to solve the not well known problem of defining languages for program input and output.
 By defining these languages programs are able to reject malicious input and create well formed output to prevent input based vulnerabilities.
