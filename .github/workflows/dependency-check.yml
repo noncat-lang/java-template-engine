@@ -1,8 +1,6 @@
 name: Dependency Check
 on:
   pull_request:
-  schedule:
-    - cron: '0 7 * * *'
 jobs:
   dependency-check:
     runs-on: ubuntu-latest
